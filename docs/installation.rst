@@ -103,19 +103,17 @@ start:
     namespace App\Entity;
 
     use Doctrine\ORM\Mapping as ORM;
+    use Doctrine\DBAL\Types\Types;
     use Nucleos\UserBundle\Model\User as BaseUser;
 
-    /**
-     * @ORM\Entity
-     * @ORM\Table(name="nucleos_user__user")
-     */
+    #[ORM\Entity]
+    #[ORM\Table(name: 'nucleos_user__user')]
     class User extends BaseUser
     {
-        /**
-         * @ORM\Id
-         * @ORM\Column(type="integer")
-         * @ORM\GeneratedValue(strategy="AUTO")
-         */
+
+        #[ORM\Id]
+        #[ORM\Column(type: Types::INTEGER)]
+        #[ORM\GeneratedValue]
         protected $id;
 
         public function __construct()
@@ -176,8 +174,11 @@ in your application:
 
     # config/packages/security.yaml
     security:
-        encoders:
+        password_hashers:
             Nucleos\UserBundle\Model\UserInterface: auto
+            harsh:
+                algorithm: auto
+                cost: 8
 
         role_hierarchy:
             ROLE_ADMIN:       ROLE_USER
